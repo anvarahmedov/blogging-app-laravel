@@ -60,13 +60,14 @@ class PostList extends Component
         })
     ->with('author', 'categories')
     ->when($this->popular, function ($query) {
-        // Using subquery for likes_count to avoid ambiguity
+        // Apply a subquery for likes_count to avoid ambiguity
         $query->leftJoin('post_like', 'posts.id', '=', 'post_like.post_id')
-              ->selectRaw('posts.*, COUNT(post_like.id) as likes_count')
-              ->groupBy('posts.id')
-              ->orderByDesc('likes_count'); // Order by the dynamically calculated likes_count
+              ->select('posts.*')
+              ->selectRaw('COUNT(post_like.id) as likes_count')  // Count the likes for the post
+              ->groupBy('posts.id') // Group by post to get count
+              ->orderByRaw('likes_count DESC'); // Order by the likes_count in descending order
     })
-    ->orderBy('published_at', direction: $this->sort)
+    ->orderBy('published_at', $this->sort)
     ->where('title', 'like', "%{$this->search}%")
     ->paginate(3);
     }
