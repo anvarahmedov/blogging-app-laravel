@@ -16,11 +16,12 @@
         "laravel/sanctum": "^4.0",
         "laravel/tinker": "^2.9",
         "livewire/livewire": "^3.0",
+         "fakerphp/faker": "^1.23",
         "outhebox/blade-flags": "^1.5"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.14",
-        "fakerphp/faker": "^1.23",
+
         "laravel/pint": "^1.13",
         "laravel/sail": "^1.26",
         "mockery/mockery": "^1.6",
