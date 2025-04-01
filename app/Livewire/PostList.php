@@ -52,17 +52,23 @@ class PostList extends Component
     #[Computed]
     public function posts()
     {
-        return Post::published()->
-        when(
-            $this->activeCategory(),
-            function($query) {
-                $query->withCategories($this->category);
-            })->with('author', 'categories')
-            ->when($this->popular, function ($query) {
-                $query->withCount('likes')->orderBy('likes_count', 'desc');
-            })->
-            orderBy('published_at', direction: $this->sort)
-            ->where('title', 'like', "%{$this->search}%")->paginate(3);
+        return Post::published()
+    ->when(
+        $this->activeCategory(),
+        function($query) {
+            $query->withCategories($this->category);
+        })
+    ->with('author', 'categories')
+    ->when($this->popular, function ($query) {
+        // Using subquery for likes_count to avoid ambiguity
+        $query->leftJoin('post_like', 'posts.id', '=', 'post_like.post_id')
+              ->selectRaw('posts.*, COUNT(post_like.id) as likes_count')
+              ->groupBy('posts.id')
+              ->orderByDesc('likes_count'); // Order by the dynamically calculated likes_count
+    })
+    ->orderBy('published_at', direction: $this->sort)
+    ->where('title', 'like', "%{$this->search}%")
+    ->paginate(3);
     }
 
     #[Computed]
