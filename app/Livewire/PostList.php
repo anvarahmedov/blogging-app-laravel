@@ -53,22 +53,16 @@ class PostList extends Component
     public function posts()
     {
         return Post::published()
-    ->when(
-        $this->activeCategory(),
-        function($query) {
-            $query->withCategories($this->category);
-        })
+    ->when($this->activeCategory(), function ($query) {
+        $query->withCategories($this->category);
+    })
     ->with('author', 'categories')
     ->when($this->popular, function ($query) {
-        // Apply a subquery for likes_count to avoid ambiguity
-        $query->leftJoin('post_like', 'posts.id', '=', 'post_like.post_id')
-              ->select('posts.*')
-              ->selectRaw('COUNT(post_like.id) as likes_count')  // Count the likes for the post
-              ->groupBy('posts.id') // Group by post to get count
-              ->orderByRaw('likes_count DESC'); // Order by the likes_count in descending order
+        $query->withCount('likes');
     })
+    ->orderByRaw('"likes_count" DESC NULLS LAST') // Fix ambiguity issue
     ->orderBy('published_at', $this->sort)
-    ->where('title', 'like', "%{$this->search}%")
+    ->where('title', 'ILIKE', "%{$this->search}%") // Case-insensitive LIKE for Postgres
     ->paginate(3);
     }
 
