@@ -102,7 +102,7 @@ class Post extends Model
         url('01JQVM1HPC39820109AY78XPYA.png') : Storage::disk()->
 
 
-        $this->image;
+        url($this->image);
 
 
     // Otherwise, return the current image or generate its URL
