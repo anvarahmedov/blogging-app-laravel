@@ -93,11 +93,16 @@ class Post extends Model
         $isUrl = str_contains($this->image, 'http');
 
 
-        return $isUrl ?
+        return $isUrl ? Storage::disk()->
 
-        $this->image : Storage::disk()->
 
-        url($this->image);
+
+
+
+        url('01JQVM1HPC39820109AY78XPYA.png') : Storage::disk()->
+
+
+        $this->image;
 
 
     // Otherwise, return the current image or generate its URL
