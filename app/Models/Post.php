@@ -95,7 +95,7 @@ class Post extends Model
 
         return $isUrl ?
 
-        $this->image : Storage::disk('r2')->
+        $this->image : Storage::disk()->
 
         url($this->image);
 
