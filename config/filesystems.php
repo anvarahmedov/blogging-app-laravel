@@ -38,11 +38,12 @@ return [
         ],
 
         'public' => [
-    'driver' => 'local',
-    'root' => storage_path('app/public'),
-    'url' => env('https://purple-blogging-app.laravel.cloud/') . '/storage',
-    'visibility' => 'public',
-],
+            'driver' => 'local',
+            'root' => storage_path('app/public'),
+            'url' => env('APP_URL').'/storage',
+            'visibility' => 'public',
+            'throw' => false,
+        ],
 
         's3' => [
             'driver' => 's3',
