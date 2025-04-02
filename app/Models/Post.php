@@ -91,8 +91,15 @@ class Post extends Model
     public function getThumbnailPhoto()
     {
         $isUrl = str_contains($this->image, 'http');
-        return $isUrl ? rawurlencode(trim($this->image)) : Storage::disk()->
+
+
+        return $isUrl ? 'posts/thumbs/dark-green-color-solid-background-1920x1080.png' : Storage::disk()->
+
         url($this->image);
+
+
+    // Otherwise, return the current image or generate its URL
+
     }
 
     public function scopeWithCategories($query, string $category)
