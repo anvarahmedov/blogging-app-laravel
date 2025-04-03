@@ -93,7 +93,7 @@ class Post extends Model
         $isUrl = str_contains($this->image, 'http');
 
 
-        return $isUrl ? asset('01JQVM1HPC39820109AY78XPYA.png') : asset($this->image);
+        return $isUrl ? asset('00eeaa.png') : asset($this->image);
 
 
 
