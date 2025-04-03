@@ -56,7 +56,7 @@ class PostResource extends Resource
                 )->columns(2),
                 Section::make('Meta')->schema(
                     [
-                        FileUpload::make('image')->required(),
+                        FileUpload::make('image')->required()->directory('images'),
                         DateTimePicker::make('published_at')->default(Carbon::now()),
                         Checkbox::make('featured'),
                         Select::make('user_id')->relationship('author', 'name')
