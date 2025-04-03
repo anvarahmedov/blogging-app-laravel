@@ -32,36 +32,36 @@
                 <div class="top-menu ml-10">
                     <ul class="flex space-x-4">
                         <li>
-                            <a class="flex space-x-2 items-center hover:text-purple-900 text-sm text-purple-500"
-                                href="http://127.0.0.1:8000">
+                            <a class="flex space-x-2 items-center hover:text-purple-900 text-sm text-purple-500" href="{{env("APP_URL")}}">
+
                                 Home
                             </a>
                         </li>
 
                         <li>
                             <a class="flex space-x-2 items-center hover:text-purple-500 text-sm text-gray-500"
-                                href="http://127.0.0.1:8000/blog">
+                            href="{{env("APP_URL")}}">
                                 Blog
                             </a>
                         </li>
 
                         <li>
                             <a class="flex space-x-2 items-center hover:text-purple-500 text-sm text-gray-500"
-                                href="http://127.0.0.1:8000/blog">
+                            href="{{env("APP_URL")}}">
                                 About Us
                             </a>
                         </li>
 
                         <li>
                             <a class="flex space-x-2 items-center hover:text-purple-500 text-sm text-gray-500"
-                                href="http://127.0.0.1:8000/blog">
+                            href="{{env("APP_URL")}}">
                                 Contact Us
                             </a>
                         </li>
 
                         <li>
                             <a class="flex space-x-2 items-center hover:text-purple-500 text-sm text-gray-500"
-                                href="http://127.0.0.1:8000/blog">
+                            href="{{env("APP_URL")}}">
                                 Terms
                             </a>
                         </li>
