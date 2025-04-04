@@ -93,7 +93,7 @@ class Post extends Model
         $isUrl = str_contains($this->image, 'http');
 
 
-        return $isUrl ? Storage::url('posts/thumbs/Kaleidoscope-Magenta.png') : Storage::url($this->image);
+        return $isUrl ? $this->image : Storage::disk('s3')->url($this->image);;
 
 
 
