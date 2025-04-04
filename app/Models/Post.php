@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use BaconQrCode\Renderer\Image\ImagickImageBackEnd;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Intervention\Image\Laravel\Facades\Image;
 use Intervention\Image\ImageManager;
@@ -93,7 +94,33 @@ class Post extends Model
         $isUrl = str_contains($this->image, 'http');
 
 
-        return $isUrl ? $this->image : Storage::disk('s3')->url($this->image);;
+        try {
+            // Check if URL is requested directly
+            if ($isUrl) {
+                return $this->image;
+            }
+
+            // Try to get the URL of the image from S3
+            return Storage::disk('s3')->url($this->image);
+        } catch (\Exception $e) {
+            // Log the error for debugging
+            \Log::error("Error retrieving image from S3: " . $e->getMessage());
+
+            // Upload a fallback image from the local disk to S3
+            $fallbackImage = 'public/images/00eeaa.png'; // Path to your local fallback image
+
+            // Check if the fallback image exists locally
+            if (Storage::disk('local')->exists($fallbackImage)) {
+                // Upload it to S3
+                Storage::disk('s3')->put('images/' . $fallbackImage, Storage::disk('local')->get($fallbackImage));
+
+                // Return the URL of the uploaded fallback image from S3
+                return Storage::disk('s3')->url('images/' . $fallbackImage);
+            }
+
+            // If fallback image doesn't exist locally, return a default fallback image URL
+            return Storage::disk('s3')->url('default-fallback-image.png');  // Replace with your default image
+        }
 
 
 
