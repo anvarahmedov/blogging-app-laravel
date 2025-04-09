@@ -53,7 +53,7 @@ class PostResource extends Resource
                 TextInput::make('slug')->required()->minLength(1)->unique(ignoreRecord:true)->maxLength(150),
                 RichEditor::make('body')->required()->fileAttachmentsDirectory('posts/images')->columnSpanFull()
                     ]
-                )->columns(2),
+                )->columns(2)->disk('s3'),
                 Section::make('Meta')->schema(
                     [
                         FileUpload::make('image')->required()->disk('s3'),
