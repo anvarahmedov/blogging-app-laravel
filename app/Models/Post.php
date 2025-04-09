@@ -93,7 +93,8 @@ class Post extends Model
         $isUrl = str_contains($this->image, 'http');
 
 
-        return $isUrl ? Storage::disk('s3')->url('argentina.png') : Storage::disk('s3')->url($this->image);
+        return $isUrl ? "https://blog-bucket-laravel.s3.amazonaws.com/argentina.png"
+        : Storage::disk('s3')->url($this->image);
 
 
 
