@@ -22,6 +22,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Illuminate\Support\Str;
 use Filament\Forms\Components\RichEditor;
+use App\Filament\Admin\Resources\TiptapEditor;
 use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\Checkbox;
 use Filament\Forms\Components\Select;
@@ -51,7 +52,13 @@ class PostResource extends Resource
                     $set('slug', Str::slug($state));
                 }),
                 TextInput::make('slug')->required()->minLength(1)->unique(ignoreRecord:true)->maxLength(150),
-                RichEditor::make('body')->required()->disk('s3')->fileAttachmentsDirectory('posts/images')->columnSpanFull()
+
+TiptapEditor::make('body')
+->required()
+->fileAttachmentsDirectory('posts/images')
+->disk('s3') // ✅ This works on TiptapEditor
+->visibility('public')
+->columnSpanFull(),
                     ]
                 )->columns(2),
                 Section::make('Meta')->schema(
