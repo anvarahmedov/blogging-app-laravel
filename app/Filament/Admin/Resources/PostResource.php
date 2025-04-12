@@ -55,7 +55,7 @@ class PostResource extends Resource
 
 TiptapEditor::make('body')
 ->required()
-->fileAttachmentsDirectory('posts/images')
+->directory('posts/images')
 ->disk('s3') // ✅ This works on TiptapEditor
 ->visibility('public')
 ->columnSpanFull(),
