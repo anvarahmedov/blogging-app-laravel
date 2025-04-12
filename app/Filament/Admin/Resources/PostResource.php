@@ -55,11 +55,23 @@ class PostResource extends Resource
                 }),
                 TextInput::make('slug')->required()->minLength(1)->unique(ignoreRecord:true)->maxLength(150),
 
-TiptapEditor::make('body')
-->required()
-->directory('posts/media')
-->disk('s3') // ✅ This works on TiptapEditor
-->columnSpanFull(),
+                TiptapEditor::make('body')
+                ->required()
+                ->directory('posts/media') // Your media directory
+                ->disk('s3') // Store on S3
+                ->getStateUsing(function ($record) {
+                    // Manually create the correct URL
+                    $path = $record->body; // Assuming 'body' contains the image path
+            
+                    if ($path && Storage::disk('s3')->exists($path)) {
+                        // Generate the correct S3 URL
+                        return Storage::disk('s3')->url($path);
+                    }
+            
+                    // Return default path if not found
+                    return null;
+                })
+                ->columnSpanFull(),
                     ]
                 )->columns(2),
                 Section::make('Meta')->schema(
