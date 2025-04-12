@@ -54,9 +54,19 @@ class PostResource extends Resource
     ->disk('s3')
     ->directory('posts/media')
     ->columnSpanFull()
-    ->image(function ($image) {
-        return Storage::disk('s3')->url($image); // returns S3 URL without the app URL
-    })
+    ->imageUploadHandler(function ($file) {
+        // Store the file in the specified directory (e.g., 'posts/media')
+        $path = $file->store('posts/media', 's3');
+        
+        // Get the URL to access the file on S3
+        $url = Storage::disk('s3')->url($path);
+        
+        // If you need to remove the app URL (base URL), you can do that here
+        $baseUrl = config('app.url');  // Get the base URL of your app (e.g., 'https://yourapp.com')
+        $customUrl = str_replace($baseUrl, '', $url);  // Remove the app base URL
+        
+        return $customUrl; 
+    }),
                     ]
                 )->columns(2),
                 Section::make('Meta')->schema(
