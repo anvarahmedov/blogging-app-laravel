@@ -6,6 +6,9 @@ use App\Http\Controllers\PostController;
 use App\Http\Middleware\SetLocale;
 use Illuminate\Support\Facades\Route;
 
+Route::post('/admin/tiptap-image-upload', [TiptapImageUploadController::class, 'upload'])
+    ->name('admin.tiptap.upload');
+
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
 Route::get('/blog', [PostController::class, 'index'])->name('posts.index');
