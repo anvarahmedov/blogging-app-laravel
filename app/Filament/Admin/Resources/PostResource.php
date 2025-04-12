@@ -46,7 +46,7 @@ class PostResource extends Resource
                 Section::make('Main Content')->schema(
                     [
                         TextInput::make('title')->
-                required()->minLength(1)->maxLength(150)
+                required()->minLength(1)->maxLength(150),
                 TiptapEditor::make('body')
     ->required()
     ->directory('posts/media')
