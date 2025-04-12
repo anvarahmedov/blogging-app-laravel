@@ -56,8 +56,7 @@ class PostResource extends Resource
         $incorrectDomain = 'https://purple-blogging-app.laravel.cloud/';
         $correctBucketUrl = 'https://blog-bucket-laravel.s3.eu-central-1.amazonaws.com/';
 
-        Log::debug('State before modification: ' . $state);
-
+        
         if ($state) {
             // Strip the incorrect domain if present
             if (strpos($state, $incorrectDomain) === 0) {
