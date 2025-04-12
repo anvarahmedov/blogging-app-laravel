@@ -3,7 +3,7 @@
 namespace App\Filament\Admin\Resources;
 
 use App\Filament\Admin\Resources\PostResource\Pages;
-use App\Filament\Admin\Resources\Storage;
+use Illuminate\Support\Facades\Storage;
 
 use App\Filament\Admin\Resources\PostResource\RelationManagers;
 use App\Filament\Admin\Resources\PostResource\RelationManagers\CommentsRelationManager;
