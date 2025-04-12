@@ -52,7 +52,7 @@ class PostResource extends Resource
                 TiptapEditor::make('body')
     ->required()
     ->disk('s3')
-    ->columnSpanFull()->use_relative_paths(false),
+    ->columnSpanFull(),
     
                     ]
                 )->columns(2),
