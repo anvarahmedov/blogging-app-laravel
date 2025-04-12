@@ -52,27 +52,7 @@ class PostResource extends Resource
                 TiptapEditor::make('body')
     ->required()
     ->disk('s3')
-    ->directory('posts/media')
-    ->columnSpanFull()->extraAttributes([
-        'x-data' => '{
-            imageUpload: (file) => {
-                const formData = new FormData();
-                formData.append("file", file);
-
-                return fetch("/admin/tiptap-image-upload", {
-                    method: "POST",
-                    body: formData,
-                    headers: {
-                        "X-CSRF-TOKEN": document.head.querySelector("meta[name=csrf-token]").content
-                    },
-                })
-                .then(response => response.json())
-                .then(data => {
-                    return { src: data.url }; // The URL of the uploaded image
-                });
-            }
-        }',
-    ]),
+    ->columnSpanFull(),
     
                     ]
                 )->columns(2),
