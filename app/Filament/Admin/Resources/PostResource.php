@@ -86,7 +86,17 @@ TiptapEditor::make('body')
     {
         return $table
             ->columns([
-                ImageColumn::make('image'),
+                ImageColumn::make('image')
+    ->getStateUsing(function ($record) {
+        $path = $record->image;
+
+        if ($path && Storage::disk('s3')->exists($path)) {
+            return Storage::disk('s3')->url($path);
+        }
+
+        // Use your S3 fallback image
+        return 'https://blog-bucket-laravel.s3.amazonaws.com/argentina.png';
+    }),
                 TextColumn::make('title')->sortable()->searchable(),
                 TextColumn::make('slug')->sortable()->searchable(),
                 TextColumn::make('author.name')->sortable()->searchable(),
