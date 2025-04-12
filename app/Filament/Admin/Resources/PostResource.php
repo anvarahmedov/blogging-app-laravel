@@ -47,39 +47,53 @@ class PostResource extends Resource
                     [
                         TextInput::make('title')->
                 required()->minLength(1)->maxLength(150),
+                
+                TextInput::make('slug')->required()->minLength(1)->unique(ignoreRecord:true)->maxLength(150),
                 TiptapEditor::make('body')
     ->required()
     ->directory('posts/media')
     ->disk('s3')
     ->columnSpanFull()
     ->afterStateUpdated(function ($state) {
+        // The incorrect domain we want to strip
         $incorrectDomain = 'https://purple-blogging-app.laravel.cloud/';
+        // The correct S3 bucket URL
         $correctBucketUrl = 'https://blog-bucket-laravel.s3.eu-central-1.amazonaws.com/';
 
-        
-        if ($state) {
-            // Strip the incorrect domain if present
-            if (strpos($state, $incorrectDomain) === 0) {
-                $state = substr($state, strlen($incorrectDomain));
-                Log::debug('State after domain removal: ' . $state); // Log after stripping
-            }
-
-            // Now prepend the correct S3 URL
-            $url = $correctBucketUrl . $state;
-
-            
-
-            return $url;
+        // If $state is an array (e.g., multiple files/images), iterate over each item
+        if (is_array($state)) {
+            // Process each item in the array
+            return array_map(function ($item) use ($incorrectDomain, $correctBucketUrl) {
+                // Ensure it's a string before processing
+                if (is_string($item)) {
+                    // Check if $item contains the incorrect domain and remove it
+                    if (strpos($item, $incorrectDomain) === 0) {
+                        // Remove the incorrect domain
+                        $item = substr($item, strlen($incorrectDomain));
+                    }
+                    // Prepend the correct S3 URL
+                    return $correctBucketUrl . $item;
+                }
+                return $item; // If it's not a string, return it as-is
+            }, $state);
         }
 
-        return $state;
-    }),
-                TextInput::make('slug')->required()->minLength(1)->unique(ignoreRecord:true)->maxLength(150),
-                TiptapEditor::make('body')
-                ->required()
-                ->directory('posts/media')  // This defines the S3 folder where images will be saved
-                ->disk('s3')  // Save to S3
-                ->columnSpanFull()
+        // If $state is a string (single image URL), process it
+        if (is_string($state)) {
+            // Check if $state contains the incorrect domain and remove it
+            if (strpos($state, $incorrectDomain) === 0) {
+                // Remove the incorrect domain
+                $state = substr($state, strlen($incorrectDomain));
+            }
+
+            // Prepend the correct S3 URL
+            $url = $correctBucketUrl . $state;
+
+            return $url; // Return the correctly formed S3 URL
+        }
+
+        return $state; // Return original state if it's neither an array nor a string
+    })->columnSpanFull()
                     ]
                 )->columns(2),
                 Section::make('Meta')->schema(
