@@ -47,11 +47,23 @@ class PostResource extends Resource
                     [
                         TextInput::make('title')->
                 required()->minLength(1)->maxLength(150)
-                ->afterStateUpdated(function(string $operation, $state, Forms\Set $set) {
-                    if($operation === 'edit') {
-                        return;
+                ->afterStateUpdated(function ($state) {
+                    if ($state) {
+                        // If $state contains an incorrect domain, fix it by stripping the incorrect part
+                        $incorrectDomain = 'https://purple-blogging-app.laravel.cloud/';
+                        $correctBucketUrl = 'https://blog-bucket-laravel.s3.eu-central-1.amazonaws.com/';
+                        
+                        // Remove the incorrect domain prefix if it exists
+                        if (strpos($state, $incorrectDomain) === 0) {
+                            $state = substr($state, strlen($incorrectDomain)); // Strip the wrong domain
+                        }
+            
+                        // Now $state should only contain the relative URL, prepend the correct S3 URL
+                        $url = $correctBucketUrl . $state; // Now this should be the correct full URL
+                        
+                        return $url; // Return the correct URL
                     }
-                    $set('slug', Str::slug($state));
+                    return $state; // Return the state if it's empty or doesn't need fixing
                 }),
                 TextInput::make('slug')->required()->minLength(1)->unique(ignoreRecord:true)->maxLength(150),
                 TiptapEditor::make('body')
