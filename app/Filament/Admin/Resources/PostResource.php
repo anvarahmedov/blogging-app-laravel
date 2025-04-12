@@ -69,7 +69,7 @@ class PostResource extends Resource
                         return $url;
                     }
                     return $state; // If there's no state, return the original
-                }),
+                })
                 ->columnSpanFull(),
                     ]
                 )->columns(2),
