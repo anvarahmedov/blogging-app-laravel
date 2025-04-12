@@ -68,7 +68,7 @@ class PostResource extends Resource
             // Now prepend the correct S3 URL
             $url = $correctBucketUrl . $state;
 
-            Log::debug('Final URL: ' . $url); // Log final URL
+            
 
             return $url;
         }
