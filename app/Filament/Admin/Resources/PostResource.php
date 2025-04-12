@@ -59,20 +59,6 @@ class PostResource extends Resource
                 ->directory('posts/media')  // This defines the S3 folder where images will be saved
                 ->disk('s3')  // Save to S3
                 ->columnSpanFull()
-                ->afterStateUpdated(function ($state) {
-                    if ($state) {
-                        // Ensure the image URL is generated correctly from S3
-                        // $state should be the relative path returned by the file upload process
-                        // Assuming the file has been uploaded to S3 and $state contains the file path like 'posts/media/image.jpg'
-                        
-                        // Generate the full URL using Laravel's Storage facade
-                        $url = Storage::disk('s3')->url($state);  // Generates the full URL for the file
-            
-                        return $url;  // Return the generated URL
-                    }
-                    return $state;  // If there's no state, return the original
-                })
-                ->columnSpanFull(),
                     ]
                 )->columns(2),
                 Section::make('Meta')->schema(
