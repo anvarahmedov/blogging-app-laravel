@@ -51,49 +51,12 @@ class PostResource extends Resource
                 TextInput::make('slug')->required()->minLength(1)->unique(ignoreRecord:true)->maxLength(150),
                 TiptapEditor::make('body')
     ->required()
-    ->directory('posts/media')
     ->disk('s3')
+    ->directory('posts/media')
     ->columnSpanFull()
-    ->afterStateUpdated(function ($state) {
-        // The incorrect domain we want to strip
-        $incorrectDomain = 'https://purple-blogging-app.laravel.cloud/';
-        // The correct S3 bucket URL
-        $correctBucketUrl = 'https://blog-bucket-laravel.s3.eu-central-1.amazonaws.com/';
-
-        // If $state is an array (e.g., multiple files/images), iterate over each item
-        if (is_array($state)) {
-            // Process each item in the array
-            return array_map(function ($item) use ($incorrectDomain, $correctBucketUrl) {
-                // Ensure it's a string before processing
-                if (is_string($item)) {
-                    // Check if $item contains the incorrect domain and remove it
-                    if (strpos($item, $incorrectDomain) === 0) {
-                        // Remove the incorrect domain
-                        $item = substr($item, strlen($incorrectDomain));
-                    }
-                    // Prepend the correct S3 URL
-                    return $correctBucketUrl . $item;
-                }
-                return $item; // If it's not a string, return it as-is
-            }, $state);
-        }
-
-        // If $state is a string (single image URL), process it
-        if (is_string($state)) {
-            // Check if $state contains the incorrect domain and remove it
-            if (strpos($state, $incorrectDomain) === 0) {
-                // Remove the incorrect domain
-                $state = substr($state, strlen($incorrectDomain));
-            }
-
-            // Prepend the correct S3 URL
-            $url = $correctBucketUrl . $state;
-
-            return $url; // Return the correctly formed S3 URL
-        }
-
-        return $state; // Return original state if it's neither an array nor a string
-    })->columnSpanFull()
+    ->image(function ($image) {
+        return Storage::disk('s3')->url($image); // returns S3 URL without the app URL
+    })
                     ]
                 )->columns(2),
                 Section::make('Meta')->schema(
