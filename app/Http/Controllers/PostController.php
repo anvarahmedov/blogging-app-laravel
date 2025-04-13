@@ -44,7 +44,7 @@ class PostController extends Controller
             ->take(5)
             ->get();
             //$regex = '/<a[^>]*>(<img[^>]*>).*?<figcaption[^>]*>.*?<\/figcaption>.*?<\/a>/is';
-            $post->body = preg_replace($regex, '$1', $post->body);
+            //$post->body = preg_replace($regex, '$1', $post->body);
             if (empty($post->image)) {
                 $image = \File::allFiles(public_path('images'));
                 $post->image = asset('images/' . $image[0]->getFilename());
