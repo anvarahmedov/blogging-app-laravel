@@ -1,12 +1,6 @@
 <x-app-layout title="{{ $post->title }}">
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
-    <style>
-        strong, b {
-    font-weight: bold !important;
-}
-
-
-        </style>
+    
 
     <div class="md:col-span-3 mx-auto col-span-4">
         <article class="col-span-4 md:col-span-3 mt-10 mx-auto py-5 w-full" style="max-width:700px">
