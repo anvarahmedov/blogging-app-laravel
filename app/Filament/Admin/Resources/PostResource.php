@@ -56,7 +56,7 @@ class PostResource extends Resource
    RichEditor::make('body')->required()
     ->fileAttachmentsDisk('s3')
     ->fileAttachmentsDirectory('attachments')
-    ->fileAttachmentsVisibility('private')->columnSpanFull()
+    ->fileAttachmentsVisibility('public')->columnSpanFull()
     
                     ]
                 )->columns(2),
