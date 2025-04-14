@@ -73,9 +73,7 @@ class PostResource extends Resource
         'underline',
         'undo',
         'strike',
-        'h1',      
-        'textColor',         
-        'highlight',        
+        'h1',             
         'h2',           
         'h3',  
     ])
