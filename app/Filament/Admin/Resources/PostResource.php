@@ -57,7 +57,26 @@ class PostResource extends Resource
   RichEditor::make('body')->required()
     ->fileAttachmentsDisk('s3')
     ->fileAttachmentsDirectory('attachments')
-    ->fileAttachmentsVisibility('public')->columnSpanFull()
+    ->fileAttachmentsVisibility('public')->columnSpanFull()->toolbarButtons([
+        'attachFiles',
+        'blockquote',
+        'bold',
+        'bulletList',
+        'codeBlock',
+        'h2',
+        'h3',
+        'italic',
+        'link',
+        'orderedList',
+        'redo',
+        'strike',
+        'underline',
+        'undo',
+        'strike',
+        'h1',           
+        'h2',           
+        'h3',  
+    ])
    
     
                     ]
