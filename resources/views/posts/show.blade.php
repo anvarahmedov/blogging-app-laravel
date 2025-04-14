@@ -34,7 +34,7 @@
             </div>
 
             <div class="article-content py-3 text-gray-800 text-lg text-justify">
-                 {!! wrapImagesWithCaptions($post->body) !!}
+                 {!! $post->body !!}
             </div>
 
             <div class="flex items-center space-x-4 mt-10">
