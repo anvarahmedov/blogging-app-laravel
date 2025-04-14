@@ -71,8 +71,9 @@ class Post extends Model
 
     public function getExcerpt()
     {
-        $regex = '/<a[^>]*>(<img[^>]*>).*?<figcaption[^>]*>.*?<\/figcaption>.*?<\/a>/is';
-        $this->body = preg_replace($regex, '$1', $this->body);
+        $this->body = preg_replace('/<figure[^>]*>.*?<\/figure>/is', '', $this->body);
+
+        
         return Str::limit(strip_tags($this->body), 150);
     }
 

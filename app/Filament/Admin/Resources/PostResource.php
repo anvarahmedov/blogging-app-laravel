@@ -49,10 +49,15 @@ class PostResource extends Resource
                 required()->minLength(1)->maxLength(150),
                 
                 TextInput::make('slug')->required()->minLength(1)->unique(ignoreRecord:true)->maxLength(150),
-                TiptapEditor::make('body')
-    ->required()
-    ->disk('s3')
-    ->columnSpanFull(),
+               // TiptapEditor::make('body')
+  //  ->required()
+  //  ->disk('s3')
+  //  ->columnSpanFull(),
+
+  RichEditor::make('body')->required()
+    ->fileAttachmentsDisk('s3')
+    ->fileAttachmentsDirectory('attachments')
+    ->fileAttachmentsVisibility('public')->columnSpanFull()
    
     
                     ]
