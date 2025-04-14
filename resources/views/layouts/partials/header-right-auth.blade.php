@@ -4,21 +4,6 @@
         {{ __('menu.admin') }}
     </x-nav-link>
     @endcan
-    <style>
-        figure {
-            display: block;
-            margin-bottom: 20px;
-            text-align: center;
-        }
-        figcaption {
-            display: block;
-            font-size: 0.9rem;
-            color: #666;
-            margin-top: 10px;
-            font-style: italic;
-            text-align: center;
-        }
-    </style>
     <x-dropdown align="right" width="48">
         <x-slot name="trigger">
             @if (Laravel\Jetstream\Jetstream::managesProfilePhotos())

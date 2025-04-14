@@ -1,5 +1,30 @@
 <x-app-layout title="{{ $post->title }}">
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+    <style>
+        /* Styling for figure */
+figure {
+    display: block;
+    margin-bottom: 20px;
+    text-align: center; /* Centers the image and caption */
+}
+
+/* Styling for figcaption */
+figcaption.attachment__caption {
+    font-size: 0.9rem; /* Adjust font size */
+    color: #666;      /* Caption color */
+    margin-top: 10px; /* Space between the image and the caption */
+    font-style: italic; /* Italicize the caption */
+    text-align: center; /* Center the caption */
+}
+
+/* Additional class if you need more customization for edited captions */
+figcaption.attachment__caption--edited {
+    color: #333; /* Make it darker or change the color */
+    font-weight: bold; /* Make the caption text bold */
+}
+
+        </style>
+
     <div class="md:col-span-3 mx-auto col-span-4">
         <article class="col-span-4 md:col-span-3 mt-10 mx-auto py-5 w-full" style="max-width:700px">
             <img class="w-full my-2 rounded-lg" src="{{ $post->getThumbnailPhoto($post) }}" alt="">
