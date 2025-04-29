@@ -36,5 +36,17 @@ class Comment extends Model
         return $this->belongsTo(Comment::class, 'parent_id');
     }
 
+    // In Comment model (Comment.php)
+protected static function booted()
+{
+    static::creating(function ($comment) {
+        // Ensure user_id is always set before creating the comment
+        if (!$comment->user_id) {
+            $comment->user_id = auth()->id();  // Assign the authenticated user ID
+        }
+    });
+}
+
+
 
 }
