@@ -20,13 +20,6 @@ class CommentsRelationManager extends RelationManager
             TextInput::make('content')
                 ->required()
                 ->maxLength(255),
-            Select::make('user_id')
-                ->relationship('user', 'name')
-                ->searchable()
-                ->preload()
-                ->default(auth()->id()) // Set the default value of user_id to the current authenticated user's ID
-                ->required()
-                ->hidden(), // Always hide the user_id field
         ]);
     }
 
