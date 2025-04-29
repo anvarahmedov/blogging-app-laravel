@@ -54,7 +54,7 @@ class CommentsRelationManager extends RelationManager
      */
     public function beforeSave($record, Form $form)
     {
-        dd(auth()->id())
+        dd(auth()->id());
         // Check if user is authenticated
         if (auth()->check()) {
             // Set the user_id to the authenticated user
