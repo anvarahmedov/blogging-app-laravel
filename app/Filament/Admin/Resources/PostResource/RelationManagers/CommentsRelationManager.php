@@ -20,6 +20,7 @@ class CommentsRelationManager extends RelationManager
             TextInput::make('content')
                 ->required()
                 ->maxLength(255),
+            
         ]);
     }
 
@@ -44,12 +45,18 @@ class CommentsRelationManager extends RelationManager
             ->bulkActions([]);
     }
 
-    public function beforeSave($record, Form $form)
-    {
-        // If the comment is being created, ensure that the user_id is set to the current user
-        if (!$record->exists) {
-            $record->user_id = auth()->id(); // Always set the user_id to the current authenticated user
-        }
-    }
+    public static function mutateDataBeforeCreate(array $data): array
+{
+    $data['user_id'] = auth()->id();
+    return $data;
+}
+
+
+    public static function mutateDataBeforeSave(array $data): array
+{
+    $data['user_id'] = auth()->id();
+    return $data;
+}
+
 }
 
